@@ -6,6 +6,14 @@ Portfolio of independent projects
         * This data is currently just for 2023, but will be expanded to include the past 5 years
     * To run this tool locally on your machine, run the following command in your terminal:
 
+   RUN:
+      
+      ```python
+    pip install -r requirements.txt
+    ```
+
+    THEN
+
     ```python
     streamlit run App.py
     ```
