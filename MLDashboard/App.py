@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, precision_score, recall_score
 
@@ -16,9 +17,9 @@ st.set_page_config(
 
 raw_data_link = "https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data"
 
-st.title("Modelling Accident Severity using UK Road Accidents Data")
-st.info(
-    """
+with st.sidebar:
+    st.info(
+        """
         The following dashboard models the incident severity score of road accidents, 
         based on three continuous input variables (see inputs below). 
 
@@ -33,7 +34,19 @@ st.info(
         | -------- | ------- | ------- | ------- |
         | Sex  | Male    | Female | Unknown |
     """
-)
+    )
+    st.warning(
+        """
+        TODO: Incorporate data from past 5 years, from various data sources.
+
+        TODO: Build out categoric modelling.
+    
+        TODO: Use Optuna libraries to optimise models further.
+    """
+    )
+
+st.title("Modelling Accident Severity using UK Road Accidents Data")
+
 
 # Load, merge, and clean data
 data = ut.merge_and_clean_data()
@@ -85,8 +98,8 @@ with dcol1.container(border=True):
 
     mcol1, mcol2, mcol3 = st.columns(3)
     if data_type_input == "Continuous":
-        rfr_model = ut.train_rfr_model(train_X, train_y, max_leaf_node=max_leaf_node_input)
-        predictions = rfr_model.predict(val_X)
+        model = ut.train_rfr_model(train_X, train_y, max_leaf_node=max_leaf_node_input)
+        predictions = model.predict(val_X)
 
         mcol1.metric(
             label=f"Mean Absolute Error (3dp)",
@@ -98,37 +111,54 @@ with dcol1.container(border=True):
         )
 
     elif data_type_input == "Categoric":
-        rfc_model = ut.train_rfc_model(train_X, train_y, max_leaf_node=max_leaf_node_input)
-        predictions = rfc_model.predict(val_X)
+        dummy_data = pd.get_dummies(X, dtype=float)
+        train_X, val_X, train_y, val_y = train_test_split(dummy_data, y, random_state=0)
+        model = ut.train_rfc_model(train_X, train_y, max_leaf_node=max_leaf_node_input)
+        predictions = model.predict(val_X)
         mcol1.metric(
             label=f"Accuracy Score (3dp)",
             value=round((accuracy_score(val_y, predictions)), 3),
         )
 
-        mcol2.metric(label="Precision Score (3dp)", value=round(precision_score(val_y, predictions), 3))
+        # mcol2.metric(label="Precision Score (3dp)", value=round(precision_score(val_y, predictions), 3))
 
-        mcol3.metric(label="Recall Score (3dp)", value=round(recall_score(val_y, predictions), 3))
+        # mcol3.metric(label="Recall Score (3dp)", value=round(recall_score(val_y, predictions), 3))
 
+if data_type_input == "Categoric":
+    st.error("Categoric modelling under construction")
+    st.stop()
 
-with dcol2.container(border=True):
-    st.header("Predict")
-    st.button(
-        label="Run Model",
-        on_click=ut.make_predictions(rfr_model, values),
-    )
+else:
+    with dcol2.container(border=True):
+        st.header("Optimise")
+        st.info(
+            "Use the max leaf node input and plot below to optimise the max leaf nodes for the model. "
+            + "Min leaf node = 10."
+        )
 
-with dcol3.container(border=True):
-    st.header("Optimise")
-    st.info("Use the plot below to optimise the max leaf nodes for the model")
-    maes_fig = ut.plot_maes(train_X, val_X, train_y, val_y)
-    st.plotly_chart(maes_fig, use_container_width=True)
+        max_leaf_node_input = st.number_input(
+            label="Max Leaf Node",
+            placeholder="Enter integer",
+            step=10,
+            min_value=20,
+            value=50,
+        )
 
+        plot_fig_button = st.button(
+            label="Run Plot",
+        )
 
-with dcol4.expander(label="Full dataset", expanded=False):
-    st.dataframe(data)
+        if plot_fig_button:
+            ut.plot_maes(train_X, train_y, max_node=max_leaf_node_input)
 
-st.warning(
-    """
-        TODO: Incorporate data from past 5 years, from various data sources.
-    """
-)
+    with dcol3.container(border=True):
+        st.header("Predict")
+        run_model_button = st.button(
+            label="Run Model",
+        )
+
+        if run_model_button:
+            on_click = ut.make_predictions(model, values)
+
+    with dcol4.expander(label="See full dataset", expanded=False):
+        st.dataframe(data)
