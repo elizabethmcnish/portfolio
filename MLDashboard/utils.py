@@ -39,7 +39,8 @@ def merge_and_clean_data():
 
 def make_predictions(model, *kwargs):
     Ynew = model.predict(kwargs)
-    st.write("X=%s, Predicted=%s" % (kwargs[0], Ynew[0]))
+    st.write("X = %s" % (kwargs[0]))
+    st.write("Predicted = %s" % (Ynew[0]))
 
 
 # Optimising model for max_leaf_node
@@ -50,22 +51,39 @@ def get_mae(max_leaf_nodes, train_X, train_y):
     return mean_absolute_error(train_y, predictions)
 
 
-def plot_maes(train_X, val_X, train_y, val_y):
-    max_leaf_nodes_list = np.arange(10, 201, 10).tolist()
+# Plotting maes
+def plot_maes(train_X, train_y, max_node):
+    max_leaf_nodes_list = np.arange(10, max_node, 10).tolist()
     maes = []
-    for max_leaf_node in max_leaf_nodes_list:
+
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    total_steps = len(max_leaf_nodes_list)
+
+    for i, max_leaf_node in enumerate(max_leaf_nodes_list):
         mae = get_mae(max_leaf_node, train_X, train_y)
         maes.append(mae)
 
+        # Update progress bar
+        progress = int((i + 1) / total_steps * 100)
+        progress_bar.progress(progress)
+        status_text.text(f"Processing {i+1}/{total_steps}...")
+
+    progress_bar.empty()
+    status_text = st.empty()
+
     df = pd.DataFrame(dict(x=max_leaf_nodes_list, y=maes))
 
-    return px.line(
+    maes_fig = px.line(
         df,
         x="x",
         y="y",
         markers=True,
         title="Max Leaf Nodes vs MAE for model validation using Random Forest Regression",
     )
+
+    return st.plotly_chart(maes_fig, use_container_width=True)
 
 
 # Dynamically build filters
