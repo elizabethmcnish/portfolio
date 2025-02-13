@@ -66,16 +66,23 @@ else:
     st.warning("Select a data type")
     st.stop()
 
-variable_list_input = st.multiselect(
-    "Select X features",
-    variables_list,
-)
+if data_type_input == "Continuous":
+    variable_list_input = st.multiselect(
+        "Select X features", variables_list, default=["sex_of_driver", "age_of_driver", "age_of_vehicle"]
+    )
+else:
+    variable_list_input = st.multiselect(
+        "Select X features",
+        variables_list,
+        default="generic_make_model",
+    )
 
 if not variable_list_input:
     st.warning("Enter a combination of input filters")
     st.stop()
 
 filters, values = ut.build_filters(data, variable_list_input)
+
 
 # Define variables for training model
 X = data[variable_list_input]
