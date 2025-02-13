@@ -2,7 +2,7 @@
 Portfolio of independent projects
 
 1. ML Dashboard
-    * This tool has been created for modelling the datasets on UK road accidents
+    * This tool has been created for modelling accident severity based on datasets on UK road accidents
         * This data is currently just for 2023, but will be expanded to include the past 5 years
     * To run this tool locally on your machine, run the following command in your terminal:
 
