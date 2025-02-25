@@ -15,7 +15,7 @@ Portfolio of independent projects
 
    Install dependencies:
       
-    ```python
+    ```
     pip install -r requirements.txt
     ```
 
