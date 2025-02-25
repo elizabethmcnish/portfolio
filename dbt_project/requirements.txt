@@ -6,4 +6,6 @@ scikit-learn>=1.6.0
 sklearn-ensemble-cv==0.2.4
 python-slugify>=8.0.4
 dbt-synapse==0.19.2
+dbt-core>=1.9.2
+dbt-duckdb>=1.9.2
 sqlfluff==0.7.1
