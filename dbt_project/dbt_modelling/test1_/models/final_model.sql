@@ -13,6 +13,6 @@ ON
 GROUP BY 
     d.year, e.DepartmentName
 ORDER BY 
-    d.year ASC 
+    d.year ASC, e.DepartmentName ASC
 
 
