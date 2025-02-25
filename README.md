@@ -1,7 +1,7 @@
 # portfolio
 Portfolio of independent projects
 
-1.** ML Dashboard**
+**ML Dashboard**
     * This tool has been created for modelling accident severity based on datasets on UK road accidents
         * This data is currently just for 2023, but will be expanded to include the past 5 years
     * To run this tool locally on your machine, run the following command in your terminal:
@@ -26,7 +26,7 @@ Portfolio of independent projects
    * Feel free to play around with the input variables (features), and try to optimise the model as much as possible!
 
 
-3. **dbt_modelling**
+**dbt_modelling**
    * This directory contains a streamlit-based app which **compares the performance of dbt-based models and single SQL queries**
    * The dbt-based models are being used in conjunction with **duckdb**
   
