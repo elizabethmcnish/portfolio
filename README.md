@@ -49,7 +49,7 @@ Portfolio of independent projects
     pip install -r requirements.txt
     ```
 
-   Build your dbt models:
+   Build your dbt models, run the following inside the "test1_" dir:
 
    ```python
     dbt build
@@ -65,7 +65,7 @@ Portfolio of independent projects
     dbt run
     ```
 
-    Run app in Streamlit:
+    Run app in Streamlit inside the "dbt-modelling" dir:
 
     ```python
     streamlit run App.py
