@@ -1,0 +1,22 @@
+version: 2
+
+seeds:
+  - name: employees
+    config:
+      column_types:
+        EmployeeKey: INTEGER
+        ParentEmployeeKey: INTEGER
+        EmployeeNationalIDAlternateKey: INTEGER
+        ParentEmployeeNationalIDAlternateKey: INTEGER
+        SalesTerritoryKey: INTEGER
+        NameStyle: INTEGER
+        HireDate: VARCHAR
+        BirthDate: VARCHAR
+        SalariedFlag: INTEGER
+        PayFrequency: INTEGER
+        VacationHours: INTEGER 
+        SickLeaveHours: INTEGER
+        CurrentFlag: INTEGER
+        SalesPersonFlag: INTEGER
+        StartDate: VARCHAR
+      null_values: ["NULL"]

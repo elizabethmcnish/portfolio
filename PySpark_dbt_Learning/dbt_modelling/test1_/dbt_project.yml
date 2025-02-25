@@ -1,0 +1,57 @@
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'test1_'
+version: '1.0.0'
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'test1_'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring seed options
+# "None" values in employees have been manually removed (empty values)
+seeds:
+  test1_:
+    employees:
+      +column_types:
+        EmployeeKey: INTEGER
+        ParentEmployeeKey: INTEGER
+        EmployeeNationalIDAlternateKey: INTEGER
+        ParentEmployeeNationalIDAlternateKey: INTEGER
+        SalesTerritoryKey: INTEGER
+        NameStyle: INTEGER
+        HireDate: VARCHAR
+        BirthDate: VARCHAR
+        SalariedFlag: INTEGER
+        PayFrequency: INTEGER
+        VacationHours: INTEGER 
+        SickLeaveHours: INTEGER
+        CurrentFlag: INTEGER
+        SalesPersonFlag: INTEGER
+        StartDate: VARCHAR
+      +null_values: ["NULL"]
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/
+# directory as views. These settings can be overridden in the individual model
+# files using the `{{ config(...) }}` macro.
+models:
+  test1_:
+    # Config indicated by + and applies to all files under models/example/
+      +materialized: view
