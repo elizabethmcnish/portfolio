@@ -23,9 +23,17 @@ class santas_lights:
 
         All lights that were previously on will remain on.
 
-        TODO: add assertion that start_light and stop_light values must be between 0 and 999
-
         """
+        # Destructuring the coordinate tuples
+        a, b = new_start_light
+        c, d = new_stop_light
+
+        assert 0 <= a <= self.no_of_rows, f"Row coordinate {a} out of range"
+        assert 0 <= c <= self.no_of_rows, f"Row coordinate {c} out of range"
+
+        assert 0 <= b <= self.no_of_cols, f"Column coordinate {b} out of range"
+        assert 0 <= d <= self.no_of_cols, f"Column coordinate {d} out of range"
+
         if on is True:
             x = 1
         else:

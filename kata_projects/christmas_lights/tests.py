@@ -1,6 +1,6 @@
 # Unit tests for Christmas Kata project using PyTest module
 
-from client import santas_lights
+from kata_projects.christmas_lights.client import santas_lights
 import numpy as np
 
 
