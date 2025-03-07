@@ -69,7 +69,7 @@ def generate(user_inputs):
             }},
             "greenhouse_gas_emissions": {{
             "type": "string",
-            "pattern": "^£\\d+$",
+            "pattern": "^\\d+$",
             "description": "The total greenhouse gas emissions in kgC02e."
             }}
                 
